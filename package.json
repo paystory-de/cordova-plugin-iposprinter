@@ -1,0 +1,32 @@
+{
+    "name": "cordova-plugin-iposprinter",
+    "version": "1.0.0",
+    "description": "Cordova wrapper for iPosPrinter Service",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/paystory-de/cordova-plugin-iposprinter.git"
+    },
+    "keywords": [
+        "ecosystem:cordova",
+        "cordova-android",
+        "thermal",
+        "printer",
+        "cordova",
+        "plugin",
+        "esc",
+        "pos",
+        "esc/pos",
+        "iposprinter",
+        "iposprinterservice"
+    ],
+    "author": {
+        "name": "Patrick Bußmann",
+        "email": "patrick.bussmann@paystory.de",
+        "url": "https://paystory.de/"
+    },
+    "license": "Apache-2.0",
+    "bugs": {
+        "url": "https://github.com/paystory-de/cordova-plugin-iposprinter.git/issues"
+    },
+    "homepage": "https://github.com/paystory-de/cordova-plugin-iposprinter#readme"
+}

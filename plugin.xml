@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="cordova-plugin-iposprinter" version="1.0.0">
+    <name>iPosPrinter Service Cordova Plugin</name>
+    <description>Cordova wrapper for iPosPrinter Service</description>
+    <license>Apache 2.0</license>
+    <keywords>cordova,android,thermal,printer,esc,pos,esc/pos,iposprinter,iposprinterservice</keywords>
+    <js-module src="www/iposprinter.js" name="IPosPrinterPlugin">
+        <clobbers target="IPosPrinter"/>
+    </js-module>
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="IPosPrinter">
+                <param name="android-package" value="de.paystory.iposprinter.IPosPrinterCordovaPlugin"/>
+            </feature>
+        </config-file>
+
+        <source-file src="src/android/IPosPrinterCordovaPlugin.java" target-dir="src/de/paystory/iposprinter"/>
+        <source-file src="src/aidl/iposprinterservice/IPosPrinterCallback.aidl"
+                     target-dir="src/com/iposprinter/iposprinterservice"/>
+        <source-file src="src/aidl/iposprinterservice/IPosPrinterService.aidl"
+                     target-dir="src/com/iposprinter/iposprinterservice"/>
+    </platform>
+</plugin>
