@@ -11,43 +11,43 @@ module.exports = {
      * <li>4: PRINTER_IS_BUSY                     The printer is printing at this time
      * <li>5: PRINTER_ERROR_UNKNOWN               Printer abnormal
      * </ul>
-     * @param {function} successCallback - Result on success
-     * @param {function} errorCallback - Result on failure
      */
-    getPrinterStatus(successCallback, errorCallback) {
-        cordova.exec(successCallback, errorCallback, 'IPosPrinter', 'getPrinterStatus', []);
+    getPrinterStatus() {
+        return new Promise(function (resolve, reject) {
+            cordova.exec(resolve, reject, 'IPosPrinter', 'getPrinterStatus', []);
+        });
     },
 
     /**
      * Printer initialization
      * Power on the printer and initialize the default settings
      * Please check the printer status when using, please wait when PRINTER_IS_BUSY
-     * @param {function} successCallback - Result on success
-     * @param {function} errorCallback - Result on failure
      */
-    printerInit(successCallback, errorCallback) {
-        cordova.exec(successCallback, errorCallback, 'IPosPrinter', 'printerInit', []);
+    printerInit() {
+        return new Promise(function (resolve, reject) {
+            cordova.exec(resolve, reject, 'IPosPrinter', 'printerInit', []);
+        });
     },
 
     /**
      * Set the print density of the printer, which will affect subsequent printing, unless initialized
      * @param {number} depth Concentration level, range 1-10, this function will not be executed if the range is exceeded Default level 6
-     * @param {function} successCallback - Result on success
-     * @param {function} errorCallback - Result on failure
      */
-    setPrinterPrintDepth(depth, successCallback, errorCallback) {
-        cordova.exec(successCallback, errorCallback, 'IPosPrinter', 'setPrinterPrintDepth', [depth]);
+    setPrinterPrintDepth(depth) {
+        return new Promise(function (resolve, reject) {
+            cordova.exec(resolve, reject, 'IPosPrinter', 'setPrinterPrintDepth', [depth]);
+        });
     },
 
     /**
      * Set the print font type, which will affect subsequent printing, unless initialized
      * (Currently only one font ST is supported, more font support will be provided in the future)
      * @param {string} typeface Font name ST
-     * @param {function} successCallback - Result on success
-     * @param {function} errorCallback - Result on failure
      */
-    setPrinterPrintFontType(typeface, successCallback, errorCallback) {
-        cordova.exec(successCallback, errorCallback, 'IPosPrinter', 'setPrinterPrintFontType', [typeface]);
+    setPrinterPrintFontType(typeface) {
+        return new Promise(function (resolve, reject) {
+            cordova.exec(resolve, reject, 'IPosPrinter', 'setPrinterPrintFontType', [typeface]);
+        });
     },
 
     /**
@@ -56,53 +56,53 @@ module.exports = {
      * Adjusting the font size will affect the character width, and the number of characters per line will also change accordingly.
      * Therefore, the typesetting formed in monospaced fonts may be messy and needs to be adjusted by yourself
      * @param {number} fontsize Font size, currently supported sizes are 16, 24, 32, 48, input illegal size executes the default value 24
-     * @param {function} successCallback - Result on success
-     * @param {function} errorCallback - Result on failure
      */
-    setPrinterPrintFontSize(fontsize, successCallback, errorCallback) {
-        cordova.exec(successCallback, errorCallback, 'IPosPrinter', 'setPrinterPrintFontSize', [fontsize]);
+    setPrinterPrintFontSize(fontsize) {
+        return new Promise(function (resolve, reject) {
+            cordova.exec(resolve, reject, 'IPosPrinter', 'setPrinterPrintFontSize', [fontsize]);
+        });
     },
 
     /**
      * Set the alignment, which will affect subsequent printing, unless initialized
      * @param {number} alignment Alignment 0: Left, 1: Center, 2: Right, Center by default
-     * @param {function} successCallback - Result on success
-     * @param {function} errorCallback - Result on failure
      */
-    setPrinterPrintAlignment(alignment, successCallback, errorCallback) {
-        cordova.exec(successCallback, errorCallback, 'IPosPrinter', 'setPrinterPrintAlignment', [alignment]);
+    setPrinterPrintAlignment(alignment) {
+        return new Promise(function (resolve, reject) {
+            cordova.exec(resolve, reject, 'IPosPrinter', 'setPrinterPrintAlignment', [alignment]);
+        });
     },
 
     /**
      * Printer paper feed (forced line feed, paper feed lines after finishing the previous printing content, at this time the motor runs idling to feed paper, no data is sent to the printer)
      * @param {number} lines The number of printer paper lines (each line is a pixel)
-     * @param {function} successCallback - Result on success
-     * @param {function} errorCallback - Result on failure
      */
-    printerFeedLines(lines, successCallback, errorCallback) {
-        cordova.exec(successCallback, errorCallback, 'IPosPrinter', 'printerFeedLines', [lines]);
+    printerFeedLines(lines) {
+        return new Promise(function (resolve, reject) {
+            cordova.exec(resolve, reject, 'IPosPrinter', 'printerFeedLines', [lines]);
+        });
     },
 
     /**
      * Print blank lines (Forced to wrap, print blank lines after finishing the previous print content, the data sent to the printer at this time are all 0x00)
      * @param {number} lines Print the number of blank lines, limit up to 100 lines
      * @param {number} height The height of the blank line (unit: pixel)
-     * @param {function} successCallback - Result on success
-     * @param {function} errorCallback - Result on failure
      */
-    printBlankLines(lines, height = 1, successCallback, errorCallback) {
-        cordova.exec(successCallback, errorCallback, 'IPosPrinter', 'printBlankLines', [lines, height]);
+    printBlankLines(lines, height = 1) {
+        return new Promise(function (resolve, reject) {
+            cordova.exec(resolve, reject, 'IPosPrinter', 'printBlankLines', [lines, height]);
+        });
     },
 
     /**
      * Print text
      * The text width is full of one line and automatically wrap and typesetting
      * @param {string} text Text string to be printed
-     * @param {function} successCallback - Result on success
-     * @param {function} errorCallback - Result on failure
      */
-    printText(text, successCallback, errorCallback) {
-        cordova.exec(successCallback, errorCallback, 'IPosPrinter', 'printText', [text]);
+    printText(text) {
+        return new Promise(function (resolve, reject) {
+            cordova.exec(resolve, reject, 'IPosPrinter', 'printText', [text]);
+        });
     },
 
     /**
@@ -111,11 +111,11 @@ module.exports = {
      * @param {string} text Text string to be printed
      * @param {string} typeface Font name ST (currently only supports one type)
      * @param {number} fontsize Font size, currently supported sizes are 16, 24, 32, 48, input illegal size executes the default value 24
-     * @param {function} successCallback - Result on success
-     * @param {function} errorCallback - Result on failure
      */
-    printSpecifiedTypeText(text, typeface = 'ST', fontsize = 24, successCallback, errorCallback) {
-        cordova.exec(successCallback, errorCallback, 'IPosPrinter', 'printSpecifiedTypeText', [text, typeface, fontsize]);
+    printSpecifiedTypeText(text, typeface = 'ST', fontsize = 24) {
+        return new Promise(function (resolve, reject) {
+            cordova.exec(resolve, reject, 'IPosPrinter', 'printSpecifiedTypeText', [text, typeface, fontsize]);
+        });
     },
 
     /**
@@ -125,11 +125,11 @@ module.exports = {
      * @param {string} typeface Font name ST (currently only supports one type)
      * @param {number} fontsize Font size, currently supported sizes are 16, 24, 32, 48, input illegal size executes the default value 24
      * @param {number} alignment Alignment (0 to the left, 1 to the center, 2 to the right)
-     * @param {function} successCallback - Result on success
-     * @param {function} errorCallback - Result on failure
      */
-    printSpecFormatText(text, typeface = 'ST', fontsize = 24, alignment = 0, successCallback, errorCallback) {
-        cordova.exec(successCallback, errorCallback, 'IPosPrinter', 'printSpecFormatText', [text, typeface, fontsize, alignment]);
+    printSpecFormatText(text, typeface = 'ST', fontsize = 24, alignment = 0) {
+        return new Promise(function (resolve, reject) {
+            cordova.exec(resolve, reject, 'IPosPrinter', 'printSpecFormatText', [text, typeface, fontsize, alignment]);
+        });
     },
 
     /**
@@ -140,11 +140,11 @@ module.exports = {
      * @param {number[]} colsAlign Alignment of each column (0 to the left, 1 to the center, 2 to the right)
      * @param {number[]} isContinuousPrint Whether to continue printing the form 1: Continue printing 0: Do not continue printing
      * Remarks: The length of the array of the three parameters should be the same, if the width of colsTextArr[i] is greater than colsWidthArr[i], the text will wrap
-     * @param {function} successCallback - Result on success
-     * @param {function} errorCallback - Result on failure
      */
-    printColumnsText(colsTextArr, colsWidthArr, colsAlign, isContinuousPrint, successCallback, errorCallback) {
-        cordova.exec(successCallback, errorCallback, 'IPosPrinter', 'printColumnsText', [colsTextArr, colsWidthArr, colsAlign, isContinuousPrint]);
+    printColumnsText(colsTextArr, colsWidthArr, colsAlign, isContinuousPrint) {
+        return new Promise(function (resolve, reject) {
+            cordova.exec(resolve, reject, 'IPosPrinter', 'printColumnsText', [colsTextArr, colsWidthArr, colsAlign, isContinuousPrint]);
+        });
     },
 
     /**
@@ -152,11 +152,11 @@ module.exports = {
      * @param {number} alignment Alignment 0: Left, 1: Center, 2: Right, Center by default
      * @param {number} bitmapSize Bitmap size, the input size range is 1~16, 10 is selected by default when the range is exceeded Unit: 24bit
      * @param {number[]|string[]} mBitmap Picture bitmap object (maximum width 384 pixels, unable to print and call back abnormal callback function)
-     * @param {function} successCallback - Result on success
-     * @param {function} errorCallback - Result on failure
      */
-    printBitmap(alignment = 1, bitmapSize = 10, mBitmap, successCallback, errorCallback) {
-        cordova.exec(successCallback, errorCallback, 'IPosPrinter', 'printBitmap', [alignment, bitmapSize, mBitmap]);
+    printBitmap(alignment = 1, bitmapSize = 10, mBitmap) {
+        return new Promise(function (resolve, reject) {
+            cordova.exec(resolve, reject, 'IPosPrinter', 'printBitmap', [alignment, bitmapSize, mBitmap]);
+        });
     },
 
     /**
@@ -175,11 +175,11 @@ module.exports = {
      * @param {number} height        Bar code height, the value ranges from 1 to 16, the default value is 6 if it exceeds the range, each unit represents the height of 24 pixels
      * @param {number} width         Barcode width, the value ranges from 1 to 16, the default value is 12 if it exceeds the range, each unit represents the length of 24 pixels
      * @param {number} textposition  Text position 0: Do not print the text, 1: The text is above the bar code, 2: The text is below the bar code, 3: Both the top and bottom of the bar code are printed
-     * @param {function} successCallback - Result on success
-     * @param {function} errorCallback - Result on failure
      */
-    printBarCode(data, symbology, height = 6, width = 12, textposition = 0, successCallback, errorCallback) {
-        cordova.exec(successCallback, errorCallback, 'IPosPrinter', 'printBarCode', [data, symbology, height, width, textposition]);
+    printBarCode(data, symbology, height = 6, width = 12, textposition = 0) {
+        return new Promise(function (resolve, reject) {
+            cordova.exec(resolve, reject, 'IPosPrinter', 'printBarCode', [data, symbology, height, width, textposition]);
+        });
     },
 
     /**
@@ -187,32 +187,31 @@ module.exports = {
      * @param {string} data QR code data
      * @param {number} modulesize Two-dimensional code block size (unit: point, value 1 to 16), beyond the setting range, the default value is 10
      * @param {number} mErrorCorrectionLevel: Two-dimensional error correction level (0:L 1:M 2:Q 3:H)
-     * @param {function} successCallback - Result on success
-     * @param {function} errorCallback - Result on failure
      */
-    printQRCode(data, modulesize = 10, mErrorCorrectionLevel = 2, successCallback, errorCallback) {
-        cordova.exec(successCallback, errorCallback, 'IPosPrinter', 'printQRCode', [data, modulesize, mErrorCorrectionLevel]);
+    printQRCode(data, modulesize = 10, mErrorCorrectionLevel = 2) {
+        return new Promise(function (resolve, reject) {
+            cordova.exec(resolve, reject, 'IPosPrinter', 'printQRCode', [data, modulesize, mErrorCorrectionLevel]);
+        });
     },
 
     /**
      * Print raw byte data
      * @param {string[]|number[]} rawPrintData Byte Data block
-     * @param {function} successCallback - Result on success
-     * @param {function} errorCallback - Result on failure
      */
-    printRawData(rawPrintData, successCallback, errorCallback) {
-        cordova.exec(successCallback, errorCallback, 'IPosPrinter', 'printRawData', [rawPrintData])
-        ;
+    printRawData(rawPrintData) {
+        return new Promise(function (resolve, reject) {
+            cordova.exec(resolve, reject, 'IPosPrinter', 'printRawData', [rawPrintData]);
+        });
     },
 
     /**
      * Use ESC/POS command to print
      * @param {string[]|number[]} data Instructions
-     * @param {function} successCallback - Result on success
-     * @param {function} errorCallback - Result on failure
      */
-    sendUserCMDData(data, successCallback, errorCallback) {
-        cordova.exec(successCallback, errorCallback, 'IPosPrinter', 'sendUserCMDData', [data]);
+    sendUserCMDData(data) {
+        return new Promise(function (resolve, reject) {
+            cordova.exec(resolve, reject, 'IPosPrinter', 'sendUserCMDData', [data]);
+        });
     },
 
     /**
@@ -220,10 +219,10 @@ module.exports = {
      * After executing each printing function method, you need to execute this method before the printer can execute printing;
      * Before executing this method, it is necessary to determine the status of the printer. This method is valid when the printer is in PRINTER_NORMAL, otherwise it will not be executed.
      * @param {number} feedlines Print and feed paper feed
-     * @param {function} successCallback - Result on success
-     * @param {function} errorCallback - Result on failure
      */
-    printerPerformPrint(feedlines = 150, successCallback, errorCallback) {
-        cordova.exec(successCallback, errorCallback, 'IPosPrinter', 'printerPerformPrint', [feedlines]);
+    printerPerformPrint(feedlines = 150) {
+        return new Promise(function (resolve, reject) {
+            cordova.exec(resolve, reject, 'IPosPrinter', 'printerPerformPrint', [feedlines]);
+        });
     }
 };

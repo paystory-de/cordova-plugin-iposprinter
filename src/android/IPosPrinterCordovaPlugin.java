@@ -26,34 +26,16 @@ public class IPosPrinterCordovaPlugin extends CordovaPlugin {
         this.initializeService();
     }
 
-    private void initializeService() {
-        ServiceConnection serviceConnection = new ServiceConnection() {
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-                iPosPrinterService = null;
-            }
-
-            @Override
-            public void onServiceConnected(ComponentName name, IBinder service) {
-                iPosPrinterService = IPosPrinterService.Stub.asInterface(service);
-            }
-        };
-
-        Intent intent = new Intent();
-        intent.setPackage("com.iposprinter.iposprinterservice");
-        intent.setAction("com.iposprinter.iposprinterservice.IPosPrintService");
-        cordova.getContext().bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
-    }
-
     @Override
     public boolean execute(String action, JSONArray args,
                            final CallbackContext callbackContext) {
+        if (iPosPrinterService == null) {
+            callbackContext.error("com.iposprinter.iposprinterservice is not available!");
+            return false;
+        }
+
         cordova.getThreadPool().execute(() -> {
             try {
-                if (iPosPrinterService == null) {
-                    this.initializeService();
-                }
-
                 IPosPrinterCallback.Stub callback = new IPosPrinterCallback.Stub() {
                     @Override
                     public void onRunResult(final boolean isSuccess) {
@@ -107,7 +89,7 @@ public class IPosPrinterCordovaPlugin extends CordovaPlugin {
                         this.iPosPrinterService.PrintSpecFormatText(args.getString(0), args.optString(1, "ST"), args.optInt(2, 24), args.optInt(3, 0), callback);
                         break;
                     case "printcolumnstext":
-                        this.iPosPrinterService.printColumnsText((String[]) args.get(0), (int[]) args.get(1), (int[]) args.get(2), args.getInt(3), callback);
+                        this.iPosPrinterService.printColumnsText(jsonArrayToStringArray((JSONArray) args.get(0)), jsonArrayToIntArray((JSONArray) args.get(1)), jsonArrayToIntArray((JSONArray) args.get(2)), args.getInt(3), callback);
                         break;
                     case "printbitmap":
                         byte[] bytes = jsonArrayToByteArray((JSONArray) args.get(2));
@@ -120,7 +102,7 @@ public class IPosPrinterCordovaPlugin extends CordovaPlugin {
                         this.iPosPrinterService.printQRCode(args.getString(0), args.optInt(1, 10), args.optInt(2, 2), callback);
                         break;
                     case "printrawdata":
-                        this.iPosPrinterService.printRawData((byte[]) args.get(0), callback);
+                        this.iPosPrinterService.printRawData(jsonArrayToByteArray((JSONArray) args.get(0)), callback);
                         break;
                     case "sendusercmddata":
                         this.iPosPrinterService.sendUserCMDData(jsonArrayToByteArray((JSONArray) args.get(0)), callback);
@@ -139,11 +121,46 @@ public class IPosPrinterCordovaPlugin extends CordovaPlugin {
         return true;
     }
 
+    private void initializeService() {
+        ServiceConnection serviceConnection = new ServiceConnection() {
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                iPosPrinterService = null;
+            }
+
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                iPosPrinterService = IPosPrinterService.Stub.asInterface(service);
+            }
+        };
+
+        Intent intent = new Intent();
+        intent.setPackage("com.iposprinter.iposprinterservice");
+        intent.setAction("com.iposprinter.iposprinterservice.IPosPrintService");
+        cordova.getContext().bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+    }
+
     private byte[] jsonArrayToByteArray(JSONArray data) throws JSONException {
         byte[] bytes = new byte[data.length()];
         for (int i = 0; i < data.length(); i++) {
             bytes[i] = (byte) (((int) data.get(i)) & 0xFF);
         }
         return bytes;
+    }
+
+    private String[] jsonArrayToStringArray(JSONArray data) throws JSONException {
+        String[] strings = new String[data.length()];
+        for(int i = 0; i < data.length(); i++) {
+            strings[i] = data.getString(i);
+        }
+        return strings;
+    }
+
+    private int[] jsonArrayToIntArray(JSONArray data) throws JSONException {
+        int[] numbers = new int[data.length()];
+        for(int i = 0; i < data.length(); i++) {
+            numbers[i] = data.getInt(i);
+        }
+        return numbers;
     }
 }
