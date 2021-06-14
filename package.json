@@ -1,6 +1,6 @@
 {
     "name": "cordova-plugin-iposprinter",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Cordova wrapper for iPosPrinter Service",
     "repository": {
         "type": "git",
